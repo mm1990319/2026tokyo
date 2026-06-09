@@ -1113,6 +1113,45 @@ function renderWeatherCard({ location, data }) {
   `;
 }
 
+function renderWeatherTabs(forecasts, activeIndex = 0) {
+  const activeForecast = forecasts[activeIndex] || forecasts[0];
+
+  weatherPanel.innerHTML = `
+    <div class="weather-head">
+      <div>
+        <p class="eyebrow">Weather</p>
+        <h3>天氣速覽</h3>
+      </div>
+      <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a>
+    </div>
+    <div class="weather-tabs" role="tablist" aria-label="天氣地點">
+      ${forecasts
+        .map(
+          ({ location }, index) => `
+            <button
+              type="button"
+              role="tab"
+              aria-selected="${index === activeIndex}"
+              data-weather-index="${index}"
+            >
+              ${escapeHtml(location.name)}
+            </button>
+          `,
+        )
+        .join("")}
+    </div>
+    <div class="weather-detail">
+      ${renderWeatherCard(activeForecast)}
+    </div>
+  `;
+
+  weatherPanel.querySelectorAll("[data-weather-index]").forEach((button) => {
+    button.addEventListener("click", () => {
+      renderWeatherTabs(forecasts, Number(button.dataset.weatherIndex));
+    });
+  });
+}
+
 async function renderWeather() {
   if (!weatherPanel) return;
 
@@ -1136,18 +1175,7 @@ async function renderWeather() {
       }),
     );
 
-    weatherPanel.innerHTML = `
-      <div class="weather-head">
-        <div>
-          <p class="eyebrow">Weather</p>
-          <h3>天氣速覽</h3>
-        </div>
-        <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a>
-      </div>
-      <div class="weather-list">
-        ${forecasts.map(renderWeatherCard).join("")}
-      </div>
-    `;
+    renderWeatherTabs(forecasts);
   } catch (error) {
     weatherPanel.innerHTML = `
       <div class="weather-head">
