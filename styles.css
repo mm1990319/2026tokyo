@@ -298,6 +298,60 @@ main {
   font-weight: 800;
 }
 
+.day-chip {
+  border: 1px solid transparent;
+}
+
+.day-chip--day-1 {
+  background: #f9d7d2;
+  color: #8f2f24;
+}
+
+.day-chip--day-2 {
+  background: #ffe5b8;
+  color: #81570d;
+}
+
+.day-chip--day-3 {
+  background: #dcefd5;
+  color: #32612e;
+}
+
+.day-chip--day-4 {
+  background: #d4eee8;
+  color: #226359;
+}
+
+.day-chip--day-5 {
+  background: #d8e6fb;
+  color: #2d5795;
+}
+
+.day-chip--day-6 {
+  background: #e6dcfb;
+  color: #5b4196;
+}
+
+.day-chip--day-7 {
+  background: #f5dbeb;
+  color: #8a3e68;
+}
+
+.day-chip--day-8 {
+  background: #ece2d2;
+  color: #6d5130;
+}
+
+.day-chip--備選 {
+  background: #efefea;
+  color: #5d5a51;
+}
+
+.area-chip {
+  background: #e7eef3;
+  color: #365568;
+}
+
 .route {
   display: grid;
   gap: 0;
