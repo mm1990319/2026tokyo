@@ -7,7 +7,7 @@ const itinerary = [
       {
         time: "14:30-19:00",
         title: "CI108｜台北桃園 TPE → 東京成田 NRT",
-        detail: "Notion Date 欄位；抵達後前往新宿／大久保住宿。",
+        detail: "抵達後前往新宿／大久保住宿。",
       },
       {
         time: "19:00-21:00",
@@ -37,13 +37,13 @@ const itinerary = [
       {
         time: "09:30-11:00",
         title: "豪德寺",
-        detail: "Notion Date 欄位；世田谷線可考慮買一日券。",
+        detail: "世田谷線可考慮買一日券。",
         map: "https://www.google.com/maps/search/?api=1&query=%E8%B1%AA%E5%BE%B3%E5%AF%BA%20%E8%B1%AA%E5%BE%B3%E5%AF%BA",
       },
       {
         time: "11:30-15:00",
         title: "下北澤午餐／古著／咖啡",
-        detail: "Notion Date 欄位；店家多 11:00 或 12:00 後較完整。",
+        detail: "店家多 11:00 或 12:00 後較完整。",
         map: "https://www.google.com/maps/search/?api=1&query=Shimokitazawa",
       },
       {
@@ -75,7 +75,7 @@ const itinerary = [
       {
         time: "12:00-13:00",
         title: "淺草寺／雷門／仲見世通",
-        detail: "Notion Date 欄位；中午人潮多，抓重點拍。",
+        detail: "中午人潮多，抓重點拍。",
         map: "https://www.google.com/maps/search/?api=1&query=Sensoji+Temple",
       },
       {
@@ -111,7 +111,7 @@ const itinerary = [
       {
         time: "10:00-12:00",
         title: "新倉山淺間公園／忠靈塔",
-        detail: "Notion Date 欄位；富士山＋五重塔經典取景地。",
+        detail: "富士山＋五重塔經典取景地。",
         map: "https://www.google.com/maps/search/?api=1&query=%E6%96%B0%E5%80%89%E5%B1%B1%E6%B5%85%E9%96%93%E5%85%AC%E5%9C%92%20%E5%BF%A0%E9%9D%88%E5%A1%94",
       },
       {
@@ -123,13 +123,13 @@ const itinerary = [
       {
         time: "14:00-16:00",
         title: "忍野八海",
-        detail: "Notion Date 欄位；建議避開太晚，保留回河口湖交通時間。",
+        detail: "建議避開太晚，保留回河口湖交通時間。",
         map: "https://www.google.com/maps/search/?api=1&query=Oshino%20Hakkai",
       },
       {
         time: "17:00-18:00",
         title: "有信旅館入住｜Yushin",
-        detail: "Notion Date 欄位；18:00 前需領鑰匙。",
+        detail: "18:00 前需領鑰匙。",
         map: "https://www.google.com/maps/search/?api=1&query=Yushin%20Kawaguchiko",
       },
     ],
@@ -185,12 +185,12 @@ const itinerary = [
       {
         time: "08:00-09:30",
         title: "新宿 → 鎌倉",
-        detail: "Notion Date 欄位。",
+        detail: "鎌倉一日遊的交通起點，建議早點出發。",
       },
       {
         time: "10:00-11:30",
         title: "鶴岡八幡宮",
-        detail: "Notion Date 欄位；若明月院人潮耗時，可視情況取捨。",
+        detail: "若明月院人潮耗時，可視情況取捨。",
         map: "https://www.google.com/maps/search/?api=1&query=鶴岡八幡宮",
       },
       {
@@ -202,19 +202,19 @@ const itinerary = [
       {
         time: "13:30-14:30",
         title: "高德院（鎌倉大佛）",
-        detail: "Notion Date 欄位；可只外拍或略過胎內參觀。",
+        detail: "可只外拍或略過胎內參觀。",
         map: "https://www.google.com/maps/search/?api=1&query=高德院+鎌倉大佛",
       },
       {
         time: "14:30-15:30",
         title: "長谷寺",
-        detail: "Notion Date 欄位；繡球花季熱門，排隊過久就與高德院二選一。",
+        detail: "繡球花季熱門，排隊過久就與高德院二選一。",
         map: "https://www.google.com/maps/search/?api=1&query=長谷寺+鎌倉",
       },
       {
         time: "16:00-17:00",
         title: "Windera Cafe 七里ヶ浜店",
-        detail: "Notion Date 欄位；七里ヶ浜站步行約 3 分鐘。",
+        detail: "七里ヶ浜站步行約 3 分鐘。",
         map: "https://www.google.com/maps/search/?api=1&query=Windera%20Cafe%20%E4%B8%83%E9%87%8C%E3%83%B6%E6%B5%9C%E5%BA%97",
       },
       {
@@ -238,7 +238,7 @@ const itinerary = [
       {
         time: "11:00-15:00",
         title: "三井 Outlet Park 木更津",
-        detail: "Notion Date 欄位；預留購物、用餐、退稅時間。",
+        detail: "預留購物、用餐、退稅時間。",
         map: "https://www.google.com/maps/search/?api=1&query=MITSUI%20OUTLET%20PARK%20KISARAZU",
       },
       {
@@ -273,7 +273,7 @@ const itinerary = [
       {
         time: "14:30-17:15",
         title: "CI101｜東京成田 NRT → 台北桃園 TPE",
-        detail: "Notion Date 欄位與備註；建議至少起飛前 2.5-3 小時抵達機場。",
+        detail: "建議至少起飛前 2.5-3 小時抵達機場。",
       },
     ],
     note: "回程日以交通安全為主，建議至少起飛前 2.5-3 小時抵達機場。",
