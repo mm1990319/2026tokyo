@@ -602,7 +602,8 @@ function renderTabs(activeIndex = 0) {
     .map(
       (item, index) => `
         <button class="day-tab" role="tab" aria-selected="${index === activeIndex}" data-index="${index}">
-          ${escapeHtml(item.day)}
+          <span>${escapeHtml(item.day)}</span>
+          <small>${escapeHtml(item.date)}</small>
         </button>
       `,
     )
