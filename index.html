@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7efe4" />
+    <meta
+      name="description"
+      content="2026 東京之旅行程、住宿提醒、景點速查與票券資訊。"
+    />
+    <title>2026 東京之旅</title>
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero" id="top">
+      <nav class="topbar" aria-label="主要導覽">
+        <a href="#schedule">行程</a>
+        <a href="#places">景點</a>
+        <a href="#stay">住宿</a>
+        <a href="#links">票券</a>
+      </nav>
+      <div class="hero__content">
+        <p class="eyebrow">2026.06.13 - 06.20</p>
+        <h1>2026 東京之旅</h1>
+        <p class="hero__copy">
+          東京、新宿、淺草、河口湖、鎌倉與木更津 Outlet 的隨身行程頁。
+        </p>
+      </div>
+    </header>
+
+    <main>
+      <section class="quick-panel" aria-label="旅程摘要">
+        <div>
+          <span class="label">天數</span>
+          <strong>8 天 7 夜</strong>
+        </div>
+        <div>
+          <span class="label">主軸</span>
+          <strong>東京 + 富士山 + 鎌倉</strong>
+        </div>
+        <div>
+          <span class="label">關鍵提醒</span>
+          <strong>河口湖 18:00 前領鑰匙</strong>
+        </div>
+      </section>
+
+      <section class="section" id="today">
+        <div class="section__heading">
+          <p class="eyebrow">Now</p>
+          <h2>出發前重點</h2>
+        </div>
+        <div class="alert-grid" id="alerts"></div>
+      </section>
+
+      <section class="section" id="schedule">
+        <div class="section__heading">
+          <p class="eyebrow">Schedule</p>
+          <h2>每日行程</h2>
+        </div>
+        <div class="day-tabs" id="dayTabs" role="tablist" aria-label="選擇日期"></div>
+        <div class="timeline" id="timeline"></div>
+      </section>
+
+      <section class="section section--wide" id="places">
+        <div class="section__heading">
+          <p class="eyebrow">Places</p>
+          <h2>景點速查</h2>
+        </div>
+        <div class="filters">
+          <input id="placeSearch" type="search" placeholder="搜尋景點、區域、備註" />
+          <select id="dayFilter" aria-label="日期篩選"></select>
+          <select id="typeFilter" aria-label="類型篩選"></select>
+        </div>
+        <div class="place-list" id="placeList"></div>
+      </section>
+
+      <section class="section" id="stay">
+        <div class="section__heading">
+          <p class="eyebrow">Stay</p>
+          <h2>住宿提醒</h2>
+        </div>
+        <div class="stay-list" id="stayList"></div>
+      </section>
+
+      <section class="section" id="areas">
+        <div class="section__heading">
+          <p class="eyebrow">Area</p>
+          <h2>區域備案</h2>
+        </div>
+        <div class="area-grid" id="areaGrid"></div>
+      </section>
+
+      <section class="section" id="links">
+        <div class="section__heading">
+          <p class="eyebrow">Tickets</p>
+          <h2>票券與連結</h2>
+        </div>
+        <div class="link-list" id="linkList"></div>
+      </section>
+    </main>
+
+    <footer>
+      <a href="#top">回到頂部</a>
+      <span>資料來源：Notion「2026東京之旅」，更新至 2026-06-05。</span>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
