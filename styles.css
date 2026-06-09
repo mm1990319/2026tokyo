@@ -589,7 +589,7 @@ footer a {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
     overflow-x: visible;
-    padding-bottom: 0;
+    padding-bottom: 18px;
   }
 
   .day-tab {
