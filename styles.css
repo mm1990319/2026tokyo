@@ -281,7 +281,7 @@ main {
 
 .route {
   display: grid;
-  gap: 10px;
+  gap: 0;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -289,19 +289,53 @@ main {
 
 .route li {
   display: grid;
-  grid-template-columns: 18px 1fr;
-  gap: 10px;
+  grid-template-columns: minmax(92px, 128px) 1fr;
+  gap: 14px;
   align-items: start;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
 }
 
-.route li::before {
-  content: "";
-  width: 10px;
-  height: 10px;
-  margin-top: 8px;
-  border: 2px solid var(--accent-2);
-  border-radius: 50%;
-  background: #fff;
+.route li:first-child {
+  border-top: 0;
+}
+
+.route-time {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 6px 9px;
+  border: 1px solid rgba(47, 118, 109, 0.24);
+  border-radius: 999px;
+  background: rgba(47, 118, 109, 0.1);
+  color: var(--accent-2);
+  font-size: 13px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.route-body {
+  display: grid;
+  gap: 7px;
+}
+
+.route-body strong {
+  font-size: 18px;
+}
+
+.route-body small {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.mini-link {
+  width: fit-content;
+  color: var(--accent-3);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
 }
 
 .note {
@@ -390,6 +424,29 @@ select {
   padding: 18px;
 }
 
+.stay-facts {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.stay-facts div {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 10px;
+}
+
+.stay-facts dt {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.stay-facts dd {
+  margin: 0;
+  line-height: 1.55;
+}
+
 .area-card {
   padding: 18px;
 }
@@ -461,6 +518,15 @@ footer a {
 
   .place-card {
     min-height: auto;
+  }
+
+  .route li {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .route-time {
+    width: fit-content;
   }
 
   footer {
