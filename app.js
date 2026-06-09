@@ -896,6 +896,7 @@ const linksNode = document.querySelector("#linkList");
 const placeList = document.querySelector("#placeList");
 const placeSearch = document.querySelector("#placeSearch");
 const dayFilter = document.querySelector("#dayFilter");
+const areaFilter = document.querySelector("#areaFilter");
 const typeFilter = document.querySelector("#typeFilter");
 
 function escapeHtml(value) {
@@ -980,9 +981,13 @@ function renderDay(index = 0) {
 
 function populateFilters() {
   const days = ["全部日期", ...new Set(places.map((place) => place.day))];
+  const areas = ["全部地區", ...new Set(places.map((place) => place.area).sort((a, b) => a.localeCompare(b, "zh-Hant")))];
   const types = ["全部類型", ...new Set(places.map((place) => place.type))];
   dayFilter.innerHTML = days
     .map((day) => `<option value="${escapeHtml(day)}">${escapeHtml(day)}</option>`)
+    .join("");
+  areaFilter.innerHTML = areas
+    .map((area) => `<option value="${escapeHtml(area)}">${escapeHtml(area)}</option>`)
     .join("");
   typeFilter.innerHTML = types
     .map((type) => `<option value="${escapeHtml(type)}">${escapeHtml(type)}</option>`)
@@ -992,12 +997,14 @@ function populateFilters() {
 function renderPlaces() {
   const keyword = placeSearch.value.trim().toLowerCase();
   const day = dayFilter.value;
+  const area = areaFilter.value;
   const type = typeFilter.value;
   const filtered = places.filter((place) => {
     const text = `${place.name} ${place.day} ${place.area} ${place.type} ${place.note}`.toLowerCase();
     return (
       (!keyword || text.includes(keyword)) &&
       (day === "全部日期" || place.day === day) &&
+      (area === "全部地區" || place.area === area) &&
       (type === "全部類型" || place.type === type)
     );
   });
@@ -1008,7 +1015,7 @@ function renderPlaces() {
         <article class="place-card">
           <div class="day-meta">
             <span class="chip day-chip ${dayClass(place.day)}">${escapeHtml(place.day)}</span>
-            <span class="chip area-chip">地區：${escapeHtml(place.area)}</span>
+            <span class="chip area-chip">${escapeHtml(place.area)}</span>
             <span class="chip">${escapeHtml(place.type)}</span>
           </div>
           <h3>${escapeHtml(place.name)}</h3>
@@ -1101,6 +1108,6 @@ renderStays();
 renderAreas();
 renderLinks();
 
-[placeSearch, dayFilter, typeFilter].forEach((control) => {
+[placeSearch, dayFilter, areaFilter, typeFilter].forEach((control) => {
   control.addEventListener("input", renderPlaces);
 });
