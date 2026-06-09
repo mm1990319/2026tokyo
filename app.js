@@ -1042,7 +1042,6 @@ function renderStays() {
           <div class="day-meta">
             <span class="chip">${escapeHtml(stay.dates)}</span>
             <span class="chip">${escapeHtml(stay.platform)}</span>
-            <span class="chip">${escapeHtml(stay.status)}</span>
           </div>
           <h3>${escapeHtml(stay.name)}</h3>
           <dl class="stay-facts">
