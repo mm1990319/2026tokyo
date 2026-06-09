@@ -584,6 +584,28 @@ footer a {
     grid-template-columns: 1fr;
   }
 
+  .day-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    overflow-x: visible;
+    padding-bottom: 0;
+  }
+
+  .day-tab {
+    min-width: 0;
+    width: 100%;
+    padding: 10px 6px 11px;
+  }
+
+  .day-tab span {
+    font-size: 16px;
+  }
+
+  .day-tab small {
+    font-size: 11px;
+  }
+
   .section__heading {
     align-items: start;
     flex-direction: column;
@@ -604,5 +626,11 @@ footer a {
 
   footer {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 380px) {
+  .day-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
