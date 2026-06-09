@@ -295,6 +295,46 @@ const alerts = [
   },
 ];
 
+const weatherLocations = [
+  {
+    name: "東京",
+    area: "新宿・淺草・澀谷",
+    latitude: 35.6764,
+    longitude: 139.65,
+    dates: [
+      "2026-06-13",
+      "2026-06-14",
+      "2026-06-15",
+      "2026-06-16",
+      "2026-06-17",
+      "2026-06-18",
+      "2026-06-19",
+      "2026-06-20",
+    ],
+  },
+  {
+    name: "河口湖",
+    area: "富士山・山梨",
+    latitude: 35.5171,
+    longitude: 138.7518,
+    dates: ["2026-06-16", "2026-06-17"],
+  },
+  {
+    name: "鎌倉",
+    area: "湘南・七里ヶ浜",
+    latitude: 35.3192,
+    longitude: 139.5467,
+    dates: ["2026-06-18"],
+  },
+  {
+    name: "木更津",
+    area: "Outlet 購物日",
+    latitude: 35.4314,
+    longitude: 139.931,
+    dates: ["2026-06-19"],
+  },
+];
+
 const places = [
   {
     name: "豪德寺",
@@ -890,6 +930,7 @@ const usefulLinks = [
 const tabs = document.querySelector("#dayTabs");
 const timeline = document.querySelector("#timeline");
 const alertsNode = document.querySelector("#alerts");
+const weatherPanel = document.querySelector("#weatherPanel");
 const stayNode = document.querySelector("#stayList");
 const areasNode = document.querySelector("#areaGrid");
 const linksNode = document.querySelector("#linkList");
@@ -923,6 +964,201 @@ function renderAlerts() {
       `,
     )
     .join("");
+}
+
+function weatherText(code) {
+  const labels = {
+    0: "晴",
+    1: "大致晴朗",
+    2: "局部多雲",
+    3: "多雲",
+    45: "有霧",
+    48: "霧霜",
+    51: "毛毛雨",
+    53: "毛毛雨",
+    55: "毛毛雨",
+    56: "凍雨",
+    57: "凍雨",
+    61: "小雨",
+    63: "降雨",
+    65: "大雨",
+    66: "凍雨",
+    67: "凍雨",
+    71: "小雪",
+    73: "降雪",
+    75: "大雪",
+    77: "雪粒",
+    80: "陣雨",
+    81: "陣雨",
+    82: "強陣雨",
+    85: "陣雪",
+    86: "強陣雪",
+    95: "雷雨",
+    96: "雷雨冰雹",
+    99: "雷雨冰雹",
+  };
+
+  return labels[code] || "天氣變化";
+}
+
+function formatWeatherDate(value) {
+  const date = new Date(`${value}T00:00:00+09:00`);
+  return `${date.getMonth() + 1}/${date.getDate()}`;
+}
+
+function weatherUrl(location) {
+  const params = new URLSearchParams({
+    latitude: location.latitude,
+    longitude: location.longitude,
+    timezone: "Asia/Tokyo",
+    past_days: 7,
+    forecast_days: 16,
+    current:
+      "temperature_2m,apparent_temperature,weather_code,precipitation,wind_speed_10m",
+    daily:
+      "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_max",
+  });
+
+  return `https://api.open-meteo.com/v1/forecast?${params.toString()}`;
+}
+
+function pickTripWeather(data, dates) {
+  const daily = data.daily || {};
+  const availableDates = daily.time || [];
+
+  return dates
+    .map((date) => {
+      const index = availableDates.indexOf(date);
+      if (index === -1) return null;
+
+      return {
+        date,
+        code: daily.weather_code?.[index],
+        high: daily.temperature_2m_max?.[index],
+        low: daily.temperature_2m_min?.[index],
+        rainChance: daily.precipitation_probability_max?.[index],
+        rain: daily.precipitation_sum?.[index],
+        wind: daily.wind_speed_10m_max?.[index],
+      };
+    })
+    .filter(Boolean);
+}
+
+function formatDegrees(value) {
+  return Number.isFinite(value) ? `${Math.round(value)}°` : "--";
+}
+
+function formatRain(value) {
+  return Number.isFinite(value) ? `${Math.round(value)}%` : "--";
+}
+
+function renderWeatherCard({ location, data }) {
+  const current = data.current || {};
+  const dailyItems = pickTripWeather(data, location.dates);
+  const currentTemp = formatDegrees(current.temperature_2m);
+  const apparentTemp = formatDegrees(current.apparent_temperature);
+  const currentRain = Number.isFinite(current.precipitation)
+    ? `${current.precipitation}mm`
+    : "--";
+  const currentWind = Number.isFinite(current.wind_speed_10m)
+    ? `${Math.round(current.wind_speed_10m)}km/h`
+    : "--";
+
+  return `
+    <article class="weather-card">
+      <div class="weather-card__top">
+        <div>
+          <h3>${escapeHtml(location.name)}</h3>
+          <p>${escapeHtml(location.area)}</p>
+        </div>
+        <strong>${escapeHtml(weatherText(current.weather_code))}</strong>
+      </div>
+      <div class="weather-current">
+        <span>
+          <small>現在</small>
+          <strong>${escapeHtml(currentTemp)}</strong>
+        </span>
+        <span>
+          <small>體感</small>
+          <strong>${escapeHtml(apparentTemp)}</strong>
+        </span>
+        <span>
+          <small>降雨</small>
+          <strong>${escapeHtml(currentRain)}</strong>
+        </span>
+        <span>
+          <small>風速</small>
+          <strong>${escapeHtml(currentWind)}</strong>
+        </span>
+      </div>
+      <div class="weather-days">
+        ${
+          dailyItems.length
+            ? dailyItems
+                .map(
+                  (item) => `
+                    <div class="weather-day">
+                      <span>${escapeHtml(formatWeatherDate(item.date))}</span>
+                      <strong>${escapeHtml(weatherText(item.code))}</strong>
+                      <small>${escapeHtml(formatDegrees(item.low))} / ${escapeHtml(formatDegrees(item.high))}</small>
+                      <small>降雨 ${escapeHtml(formatRain(item.rainChance))}</small>
+                    </div>
+                  `,
+                )
+                .join("")
+            : `<p class="weather-empty">旅程日期預報尚未進入可查範圍</p>`
+        }
+      </div>
+    </article>
+  `;
+}
+
+async function renderWeather() {
+  if (!weatherPanel) return;
+
+  weatherPanel.innerHTML = `
+    <div class="weather-head">
+      <div>
+        <p class="eyebrow">Weather</p>
+        <h3>天氣速覽</h3>
+      </div>
+      <span>資料更新中</span>
+    </div>
+  `;
+
+  try {
+    const forecasts = await Promise.all(
+      weatherLocations.map(async (location) => {
+        const response = await fetch(weatherUrl(location));
+        if (!response.ok) throw new Error(`Weather failed: ${response.status}`);
+        const data = await response.json();
+        return { location, data };
+      }),
+    );
+
+    weatherPanel.innerHTML = `
+      <div class="weather-head">
+        <div>
+          <p class="eyebrow">Weather</p>
+          <h3>天氣速覽</h3>
+        </div>
+        <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a>
+      </div>
+      <div class="weather-list">
+        ${forecasts.map(renderWeatherCard).join("")}
+      </div>
+    `;
+  } catch (error) {
+    weatherPanel.innerHTML = `
+      <div class="weather-head">
+        <div>
+          <p class="eyebrow">Weather</p>
+          <h3>天氣速覽</h3>
+        </div>
+      </div>
+      <p class="weather-empty">天氣資料暫時無法載入，稍後重新整理頁面即可。</p>
+    `;
+  }
 }
 
 function renderTabs(activeIndex = 0) {
@@ -1099,6 +1335,7 @@ function renderLinks() {
 }
 
 renderAlerts();
+renderWeather();
 renderTabs();
 renderDay();
 populateFilters();
