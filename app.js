@@ -335,6 +335,80 @@ const weatherLocations = [
   },
 ];
 
+function unsplashImage(id) {
+  return `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=760&q=82`;
+}
+
+const placeImageByName = {
+  豪德寺: {
+    src: unsplashImage("1761771103963-9f07b8b0c5de"),
+    alt: "豪德寺的招財貓群",
+  },
+  下北澤: {
+    src: unsplashImage("1748878665783-97778db8355d"),
+    alt: "下北澤街道",
+  },
+  "SHIBUYA SKY": {
+    src: unsplashImage("1600236090907-7512949b063a"),
+    alt: "SHIBUYA SKY 望出去的東京夜景",
+  },
+  淺草浴衣體驗: {
+    src: unsplashImage("1706813253696-10ee6332edd3"),
+    alt: "淺草街區與和風建築",
+  },
+  淺草寺: {
+    src: unsplashImage("1580167227251-be70f01b0c51"),
+    alt: "淺草寺與參拜人潮",
+  },
+  東京鐵塔: {
+    src: unsplashImage("1734171769920-1bdf56ee9c3b"),
+    alt: "增上寺旁的東京鐵塔",
+  },
+  新倉山淺間公園: {
+    src: unsplashImage("1701178233532-b7415bbd17af"),
+    alt: "新倉山淺間公園與富士山",
+  },
+  忍野八海: {
+    src: unsplashImage("1742223964139-0a0a309fb5ed"),
+    alt: "忍野八海與富士山",
+  },
+  大石公園: {
+    src: unsplashImage("1618278942403-e973260cc425"),
+    alt: "河口湖與富士山倒影",
+  },
+  高德院鎌倉大佛: {
+    src: unsplashImage("1734572905670-e6aab970e19a"),
+    alt: "鎌倉大佛",
+  },
+  "東京車站／丸之內": {
+    src: unsplashImage("1690971324341-94fac8ec6873"),
+    alt: "東京車站丸之內站舍",
+  },
+};
+
+const placeImageByArea = {
+  世田谷: placeImageByName["下北澤"],
+  澀谷: placeImageByName["SHIBUYA SKY"],
+  淺草: placeImageByName["淺草寺"],
+  台東: placeImageByName["淺草寺"],
+  港區: placeImageByName["東京鐵塔"],
+  六本木: placeImageByName["東京鐵塔"],
+  富士吉田: placeImageByName["新倉山淺間公園"],
+  山梨: placeImageByName["忍野八海"],
+  河口湖: placeImageByName["大石公園"],
+  鎌倉: placeImageByName["高德院鎌倉大佛"],
+  東京站: placeImageByName["東京車站／丸之內"],
+};
+
+const featuredPlaceNames = new Set([
+  "SHIBUYA SKY",
+  "淺草寺",
+  "東京鐵塔",
+  "新倉山淺間公園",
+  "大石公園",
+  "高德院鎌倉大佛",
+]);
+
 const places = [
   {
     name: "豪德寺",
@@ -1002,8 +1076,11 @@ function weatherText(code) {
 }
 
 function formatWeatherDate(value) {
-  const date = new Date(`${value}T00:00:00+09:00`);
-  return `${date.getMonth() + 1}/${date.getDate()}`;
+  const parts = String(value).split("-").map(Number);
+  const month = parts[1];
+  const day = parts[2];
+  if (!month || !day) return value;
+  return `${month}/${day}`;
 }
 
 function weatherUrl(location) {
@@ -1258,6 +1335,20 @@ function populateFilters() {
     .join("");
 }
 
+function placeImage(place) {
+  return placeImageByName[place.name] || placeImageByArea[place.area];
+}
+
+function placeCardClasses(place, image) {
+  return [
+    "place-card",
+    image ? "place-card--photo" : "",
+    image && featuredPlaceNames.has(place.name) ? "place-card--feature" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
 function renderPlaces() {
   const keyword = placeSearch.value.trim().toLowerCase();
   const day = dayFilter.value;
@@ -1275,25 +1366,42 @@ function renderPlaces() {
 
   placeList.innerHTML = filtered
     .map(
-      (place) => `
-        <article class="place-card">
-          <div class="day-meta">
-            <span class="chip day-chip ${dayClass(place.day)}">${escapeHtml(place.day)}</span>
-            <span class="chip area-chip">${escapeHtml(place.area)}</span>
-            <span class="chip">${escapeHtml(place.type)}</span>
-          </div>
-          <h3>${escapeHtml(place.name)}</h3>
-          <p>${escapeHtml(place.area)}｜${escapeHtml(place.note)}</p>
-          <div class="links">
-            <a class="action-link" href="${place.map}" target="_blank" rel="noreferrer">Google Maps</a>
+      (place) => {
+        const image = placeImage(place);
+
+        return `
+          <article class="${placeCardClasses(place, image)}">
             ${
-              place.web
-                ? `<a class="action-link secondary" href="${place.web}" target="_blank" rel="noreferrer">官網</a>`
+              image
+                ? `<div class="place-card__media">
+                    <img
+                      src="${escapeHtml(image.src)}"
+                      alt="${escapeHtml(image.alt)}"
+                      loading="lazy"
+                    />
+                  </div>`
                 : ""
             }
-          </div>
-        </article>
-      `,
+            <div class="place-card__body">
+              <div class="day-meta">
+                <span class="chip day-chip ${dayClass(place.day)}">${escapeHtml(place.day)}</span>
+                <span class="chip area-chip">${escapeHtml(place.area)}</span>
+                <span class="chip">${escapeHtml(place.type)}</span>
+              </div>
+              <h3>${escapeHtml(place.name)}</h3>
+              <p>${escapeHtml(place.area)}｜${escapeHtml(place.note)}</p>
+              <div class="links">
+                <a class="action-link" href="${place.map}" target="_blank" rel="noreferrer">Google Maps</a>
+                ${
+                  place.web
+                    ? `<a class="action-link secondary" href="${place.web}" target="_blank" rel="noreferrer">官網</a>`
+                    : ""
+                }
+              </div>
+            </div>
+          </article>
+        `;
+      },
     )
     .join("");
 }
